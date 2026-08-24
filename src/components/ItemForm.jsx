@@ -1,6 +1,12 @@
 import { useState, useEffect } from "react";
 
-const categories = ["Electronics", "Clothing", "Books", "Food", "Other"];
+const categories = [
+  { value: "Electronics", emoji: "💻" },
+  { value: "Clothing", emoji: "👕" },
+  { value: "Books", emoji: "📚" },
+  { value: "Food", emoji: "🍎" },
+  { value: "Other", emoji: "📦" },
+];
 
 const ItemForm = ({ initialData, onSubmit, isLoading, buttonText }) => {
   const [formData, setFormData] = useState({
@@ -15,6 +21,7 @@ const ItemForm = ({ initialData, onSubmit, isLoading, buttonText }) => {
 
   useEffect(() => {
     if (initialData) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setFormData({
         name: initialData.name || "",
         description: initialData.description || "",
@@ -30,7 +37,7 @@ const ItemForm = ({ initialData, onSubmit, isLoading, buttonText }) => {
     if (!formData.name.trim()) newErrors.name = "Name is required";
     if (!formData.description.trim())
       newErrors.description = "Description is required";
-    if (!formData.price || formData.price <= 0)
+    if (!formData.price || Number(formData.price) <= 0)
       newErrors.price = "Price must be greater than 0";
     if (!formData.category) newErrors.category = "Category is required";
     setErrors(newErrors);
@@ -43,7 +50,6 @@ const ItemForm = ({ initialData, onSubmit, isLoading, buttonText }) => {
       ...prev,
       [name]: type === "checkbox" ? checked : value,
     }));
-    // Clear error on change
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
@@ -59,15 +65,20 @@ const ItemForm = ({ initialData, onSubmit, isLoading, buttonText }) => {
     }
   };
 
+  const inputBase =
+    "w-full rounded-xl border bg-white px-4 py-2.5 text-sm transition-all duration-200 outline-none focus:ring-4";
+  const inputNormal = `${inputBase} border-gray-200 focus:border-indigo-400 focus:ring-indigo-100`;
+  const inputError = `${inputBase} border-rose-300 focus:border-rose-400 focus:ring-rose-100`;
+
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {/* Name */}
       <div>
         <label
           htmlFor="name"
-          className="mb-2 block text-sm font-medium text-gray-700"
+          className="mb-1.5 block text-sm font-semibold text-gray-700"
         >
-          Item Name
+          Item Name <span className="text-rose-500">*</span>
         </label>
         <input
           type="text"
@@ -75,15 +86,11 @@ const ItemForm = ({ initialData, onSubmit, isLoading, buttonText }) => {
           name="name"
           value={formData.name}
           onChange={handleChange}
-          placeholder="Enter item name"
-          className={`w-full rounded-lg border px-4 py-3 text-sm transition-all duration-200 outline-none focus:ring-2 ${
-            errors.name
-              ? "border-red-300 focus:border-red-500 focus:ring-red-200"
-              : "border-gray-300 focus:border-indigo-500 focus:ring-indigo-200"
-          }`}
+          placeholder="e.g. Wireless Headphones"
+          className={errors.name ? inputError : inputNormal}
         />
         {errors.name && (
-          <p className="mt-1 text-sm text-red-500">{errors.name}</p>
+          <p className="mt-1 text-xs font-medium text-rose-600">{errors.name}</p>
         )}
       </div>
 
@@ -91,91 +98,86 @@ const ItemForm = ({ initialData, onSubmit, isLoading, buttonText }) => {
       <div>
         <label
           htmlFor="description"
-          className="mb-2 block text-sm font-medium text-gray-700"
+          className="mb-1.5 block text-sm font-semibold text-gray-700"
         >
-          Description
+          Description <span className="text-rose-500">*</span>
         </label>
         <textarea
           id="description"
           name="description"
           value={formData.description}
           onChange={handleChange}
-          placeholder="Enter item description"
+          placeholder="Describe the item..."
           rows={4}
-          className={`w-full rounded-lg border px-4 py-3 text-sm transition-all duration-200 outline-none focus:ring-2 ${
-            errors.description
-              ? "border-red-300 focus:border-red-500 focus:ring-red-200"
-              : "border-gray-300 focus:border-indigo-500 focus:ring-indigo-200"
-          }`}
+          className={`${errors.description ? inputError : inputNormal} resize-none`}
         />
         {errors.description && (
-          <p className="mt-1 text-sm text-red-500">{errors.description}</p>
+          <p className="mt-1 text-xs font-medium text-rose-600">{errors.description}</p>
         )}
       </div>
 
       {/* Price and Category Row */}
       <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        {/* Price */}
         <div>
           <label
             htmlFor="price"
-            className="mb-2 block text-sm font-medium text-gray-700"
+            className="mb-1.5 block text-sm font-semibold text-gray-700"
           >
-            Price ($)
+            Price (USD) <span className="text-rose-500">*</span>
           </label>
-          <input
-            type="number"
-            id="price"
-            name="price"
-            value={formData.price}
-            onChange={handleChange}
-            placeholder="0.00"
-            step="0.01"
-            min="0"
-            className={`w-full rounded-lg border px-4 py-3 text-sm transition-all duration-200 outline-none focus:ring-2 ${
-              errors.price
-                ? "border-red-300 focus:border-red-500 focus:ring-red-200"
-                : "border-gray-300 focus:border-indigo-500 focus:ring-indigo-200"
-            }`}
-          />
+          <div className="relative">
+            <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-400">$</span>
+            <input
+              type="number"
+              id="price"
+              name="price"
+              value={formData.price}
+              onChange={handleChange}
+              placeholder="0.00"
+              step="0.01"
+              min="0"
+              className={`${errors.price ? inputError : inputNormal} pl-7`}
+            />
+          </div>
           {errors.price && (
-            <p className="mt-1 text-sm text-red-500">{errors.price}</p>
+            <p className="mt-1 text-xs font-medium text-rose-600">{errors.price}</p>
           )}
         </div>
 
-        {/* Category */}
         <div>
           <label
             htmlFor="category"
-            className="mb-2 block text-sm font-medium text-gray-700"
+            className="mb-1.5 block text-sm font-semibold text-gray-700"
           >
-            Category
+            Category <span className="text-rose-500">*</span>
           </label>
           <select
             id="category"
             name="category"
             value={formData.category}
             onChange={handleChange}
-            className={`w-full rounded-lg border px-4 py-3 text-sm transition-all duration-200 outline-none focus:ring-2 ${
-              errors.category
-                ? "border-red-300 focus:border-red-500 focus:ring-red-200"
-                : "border-gray-300 focus:border-indigo-500 focus:ring-indigo-200"
-            }`}
+            className={`${errors.category ? inputError : inputNormal} cursor-pointer`}
           >
-            {categories.map((cat) => (
-              <option key={cat} value={cat}>
-                {cat}
+            {categories.map((c) => (
+              <option key={c.value} value={c.value}>
+                {c.emoji}  {c.value}
               </option>
             ))}
           </select>
           {errors.category && (
-            <p className="mt-1 text-sm text-red-500">{errors.category}</p>
+            <p className="mt-1 text-xs font-medium text-rose-600">{errors.category}</p>
           )}
         </div>
       </div>
 
       {/* In Stock Toggle */}
-      <div className="flex items-center gap-3">
+      <div className="flex items-center justify-between rounded-xl border border-gray-200 bg-gray-50/60 px-4 py-3">
+        <div>
+          <p className="text-sm font-semibold text-gray-700">Availability</p>
+          <p className="text-xs text-gray-500">
+            {formData.inStock ? "Item is currently available" : "Item is currently unavailable"}
+          </p>
+        </div>
         <label className="relative inline-flex cursor-pointer items-center">
           <input
             type="checkbox"
@@ -184,47 +186,46 @@ const ItemForm = ({ initialData, onSubmit, isLoading, buttonText }) => {
             onChange={handleChange}
             className="peer sr-only"
           />
-          <div className="peer h-6 w-11 rounded-full bg-gray-300 after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:transition-all after:content-[''] peer-checked:bg-indigo-500 peer-checked:after:translate-x-full peer-focus:ring-2 peer-focus:ring-indigo-200"></div>
+          <div className="peer h-6 w-11 rounded-full bg-gray-300 transition-colors after:absolute after:top-[2px] after:left-[2px] after:h-5 after:w-5 after:rounded-full after:bg-white after:shadow after:transition-all after:content-[''] peer-checked:bg-emerald-500 peer-checked:after:translate-x-full peer-focus:ring-4 peer-focus:ring-emerald-100" />
         </label>
-        <span className="text-sm font-medium text-gray-700">
-          {formData.inStock ? "In Stock" : "Out of Stock"}
-        </span>
       </div>
 
-      {/* Submit Button */}
-      <button
-        type="submit"
-        disabled={isLoading}
-        className="w-full rounded-lg bg-indigo-500 px-6 py-3 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:bg-indigo-600 hover:shadow-md active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50"
-      >
-        {isLoading ? (
-          <span className="inline-flex items-center gap-2">
-            <svg
-              className="h-4 w-4 animate-spin"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-            >
-              <circle
-                className="opacity-25"
-                cx="12"
-                cy="12"
-                r="10"
-                stroke="currentColor"
-                strokeWidth="4"
-              ></circle>
-              <path
-                className="opacity-75"
-                fill="currentColor"
-                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-              ></path>
-            </svg>
-            Processing...
-          </span>
-        ) : (
-          buttonText || "Submit"
-        )}
-      </button>
+      {/* Submit */}
+      <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+        <button
+          type="submit"
+          disabled={isLoading}
+          className="inline-flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-indigo-500 to-indigo-600 px-6 py-3 text-sm font-semibold text-white shadow-sm shadow-indigo-200 transition-all duration-200 hover:from-indigo-600 hover:to-indigo-700 hover:shadow-md hover:shadow-indigo-300 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {isLoading ? (
+            <>
+              <svg
+                className="h-4 w-4 animate-spin"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                ></path>
+              </svg>
+              Processing...
+            </>
+          ) : (
+            buttonText || "Submit"
+          )}
+        </button>
+      </div>
     </form>
   );
 };
