@@ -62,6 +62,12 @@ const ItemCard = ({ item, onDelete }) => {
       {/* Actions */}
       <div className="flex gap-3">
         <Link
+          to={`/view/${item._id}`}
+          className="flex-1 rounded-lg border border-gray-200 bg-gray-50 px-4 py-2.5 text-center text-sm font-medium text-gray-600 transition-all duration-200 hover:border-gray-300 hover:bg-gray-100 active:scale-95"
+        >
+          View product
+        </Link>
+        <Link
           to={`/edit/${item._id}`}
           className="flex-1 rounded-lg border border-indigo-200 bg-indigo-50 px-4 py-2.5 text-center text-sm font-medium text-indigo-600 transition-all duration-200 hover:bg-indigo-100 hover:border-indigo-300 active:scale-95"
         >

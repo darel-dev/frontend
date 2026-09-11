@@ -144,6 +144,17 @@ const ItemTable = ({ category, items, onDelete }) => {
                 <td className="whitespace-nowrap px-5 py-4 text-right sm:px-6">
                   <div className="inline-flex items-center gap-1">
                     <Link
+                      to={`/view/${item._id}`}
+                      className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium text-gray-600 transition-colors hover:bg-gray-100"
+                      title="View product"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 4.5C5.5 4.5 2.4 8.2 1.5 10c.9 1.8 4 5.5 8.5 5.5s7.6-3.7 8.5-5.5C17.6 8.2 14.5 4.5 10 4.5zm0 9a3.5 3.5 0 110-7 3.5 3.5 0 000 7z" />
+                        <path d="M10 8a2 2 0 100 4 2 2 0 000-4z" />
+                      </svg>
+                      <span className="hidden sm:inline">View</span>
+                    </Link>
+                    <Link
                       to={`/edit/${item._id}`}
                       className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium text-indigo-600 transition-colors hover:bg-indigo-50"
                       title="Edit"
