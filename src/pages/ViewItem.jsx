@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import toast from "react-hot-toast";
 import { itemAPI } from "../api/axios";
+import { formatCfa } from "../utils/currency";
 
 const categoryStyles = {
   Electronics: "bg-blue-50 text-blue-700 ring-blue-200",
@@ -111,7 +112,7 @@ const ViewItem = () => {
             <div className="rounded-xl border border-gray-200 bg-gray-50/60 p-4">
               <dt className="text-sm font-medium text-gray-500">Price</dt>
               <dd className="mt-1 text-2xl font-bold text-gray-900">
-                ${Number(item.price).toFixed(2)}
+                {formatCfa(item.price)}
               </dd>
             </div>
             <div className="rounded-xl border border-gray-200 bg-gray-50/60 p-4">

@@ -123,10 +123,10 @@ const ItemForm = ({ initialData, onSubmit, isLoading, buttonText }) => {
             htmlFor="price"
             className="mb-1.5 block text-sm font-semibold text-gray-700"
           >
-            Price (USD) <span className="text-rose-500">*</span>
+            Price (CFA francs) <span className="text-rose-500">*</span>
           </label>
           <div className="relative">
-            <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm font-semibold text-gray-400">$</span>
+            <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-xs font-semibold text-gray-400">CFA</span>
             <input
               type="number"
               id="price"
@@ -136,7 +136,7 @@ const ItemForm = ({ initialData, onSubmit, isLoading, buttonText }) => {
               placeholder="0.00"
               step="0.01"
               min="0"
-              className={`${errors.price ? inputError : inputNormal} pl-7`}
+              className={`${errors.price ? inputError : inputNormal} pl-12`}
             />
           </div>
           {errors.price && (

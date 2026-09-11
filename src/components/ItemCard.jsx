@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { formatCfa } from "../utils/currency";
 
 const categoryColors = {
   Electronics: "bg-blue-100 text-blue-700",
@@ -55,7 +56,7 @@ const ItemCard = ({ item, onDelete }) => {
       {/* Price */}
       <div className="mb-5">
         <span className="text-2xl font-bold text-gray-900">
-          ${item.price?.toFixed(2)}
+          {formatCfa(item.price)}
         </span>
       </div>
 

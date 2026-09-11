@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { formatCfa } from "../utils/currency";
 
 const categoryStyles = {
   Electronics: {
@@ -77,7 +78,7 @@ const ItemTable = ({ category, items, onDelete }) => {
         </div>
         <div className="flex items-center gap-2">
           <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-xs font-medium ring-1 ring-inset ${style.badge}`}>
-            Total ${totalValue.toFixed(2)}
+            Total {formatCfa(totalValue)}
           </span>
         </div>
       </header>
@@ -129,7 +130,7 @@ const ItemTable = ({ category, items, onDelete }) => {
                 </td>
                 <td className="whitespace-nowrap px-5 py-4 sm:px-6">
                   <span className="text-sm font-semibold text-gray-900">
-                    ${Number(item.price)?.toFixed(2)}
+                    {formatCfa(item.price)}
                   </span>
                 </td>
                 <td className="whitespace-nowrap px-5 py-4 sm:px-6">

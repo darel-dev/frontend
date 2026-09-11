@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { itemAPI } from "../api/axios";
 import ItemList from "../components/ItemList";
 import toast from "react-hot-toast";
+import { formatCfa } from "../utils/currency";
 
 const CATEGORIES = ["All", "Electronics", "Clothing", "Books", "Food", "Other"];
 
@@ -92,7 +93,7 @@ const Home = () => {
     },
     {
       label: "Inventory Value",
-      value: `$${stats.value.toFixed(2)}`,
+      value: formatCfa(stats.value),
       accent: "from-amber-500 to-orange-500",
       icon: (
         <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

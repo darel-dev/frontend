@@ -116,7 +116,7 @@ The view page displays:
 - Product initial as a visual identifier
 - Category
 - Description
-- Price
+- Price in CFA francs
 - Stock status
 - Last updated date
 
