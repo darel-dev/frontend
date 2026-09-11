@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import CreateItem from "./pages/CreateItem";
 import EditItem from "./pages/EditItem";
+import ViewItem from "./pages/ViewItem";
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/create" element={<CreateItem />} />
+          <Route path="/view/:id" element={<ViewItem />} />
           <Route path="/edit/:id" element={<EditItem />} />
         </Routes>
       </main>

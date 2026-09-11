@@ -112,9 +112,12 @@ const ItemTable = ({ category, items, onDelete }) => {
                       {item.name?.charAt(0)?.toUpperCase() || "?"}
                     </div>
                     <div className="min-w-0">
-                      <p className="truncate text-sm font-semibold text-gray-900 group-hover:text-indigo-700">
+                      <Link
+                        to={`/view/${item._id}`}
+                        className="block truncate text-sm font-semibold text-gray-900 hover:text-indigo-700 group-hover:text-indigo-700"
+                      >
                         {item.name}
-                      </p>
+                      </Link>
                       <p className="text-xs text-gray-500 md:hidden line-clamp-1">
                         {item.description}
                       </p>
@@ -142,27 +145,40 @@ const ItemTable = ({ category, items, onDelete }) => {
                   </span>
                 </td>
                 <td className="whitespace-nowrap px-5 py-4 text-right sm:px-6">
-                  <div className="inline-flex items-center gap-1">
+                  <div className="inline-flex items-center gap-1.5">
+                    <Link
+                      to={`/view/${item._id}`}
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-sky-200 bg-sky-50 px-2.5 py-1.5 text-xs font-semibold text-sky-700 shadow-sm transition-all hover:border-sky-300 hover:bg-sky-100 hover:shadow active:scale-95"
+                      title="View item"
+                      aria-label={`View ${item.name}`}
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M10 4.5C5.5 4.5 2.3 8.1 1.3 10c1 1.9 4.2 5.5 8.7 5.5s7.7-3.6 8.7-5.5C17.7 8.1 14.5 4.5 10 4.5zm0 9a3.5 3.5 0 110-7 3.5 3.5 0 010 7zm0-1.5a2 2 0 100-4 2 2 0 000 4z" />
+                      </svg>
+                      <span className="hidden lg:inline">View</span>
+                    </Link>
                     <Link
                       to={`/edit/${item._id}`}
-                      className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium text-indigo-600 transition-colors hover:bg-indigo-50"
-                      title="Edit"
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-indigo-200 bg-indigo-50 px-2.5 py-1.5 text-xs font-semibold text-indigo-700 shadow-sm transition-all hover:border-indigo-300 hover:bg-indigo-100 hover:shadow active:scale-95"
+                      title="Edit item"
+                      aria-label={`Edit ${item.name}`}
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
                         <path fillRule="evenodd" d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z" clipRule="evenodd" />
                       </svg>
-                      <span className="hidden sm:inline">Edit</span>
+                      <span className="hidden lg:inline">Edit</span>
                     </Link>
                     <button
                       onClick={() => handleDelete(item)}
-                      className="inline-flex items-center gap-1 rounded-lg px-2.5 py-1.5 text-xs font-medium text-rose-600 transition-colors hover:bg-rose-50"
-                      title="Delete"
+                      className="inline-flex items-center gap-1.5 rounded-lg border border-rose-200 bg-rose-50 px-2.5 py-1.5 text-xs font-semibold text-rose-700 shadow-sm transition-all hover:border-rose-300 hover:bg-rose-100 hover:shadow active:scale-95"
+                      title="Delete item"
+                      aria-label={`Delete ${item.name}`}
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
                       </svg>
-                      <span className="hidden sm:inline">Delete</span>
+                      <span className="hidden lg:inline">Delete</span>
                     </button>
                   </div>
                 </td>
