@@ -3,6 +3,7 @@ import { itemAPI } from "../api/axios";
 import ItemList from "../components/ItemList";
 import toast from "react-hot-toast";
 import { formatCfa } from "../utils/currency";
+import InventoryAnalytics from "../components/InventoryAnalytics";
 
 const CATEGORIES = ["All", "Electronics", "Clothing", "Books", "Food", "Other"];
 
@@ -136,6 +137,8 @@ const Home = () => {
           </div>
         ))}
       </div>
+
+      <InventoryAnalytics items={items} />
 
       {/* Filters */}
       <div className="flex flex-col gap-3 rounded-2xl border border-gray-200 bg-white p-3 shadow-sm sm:flex-row sm:items-center">
