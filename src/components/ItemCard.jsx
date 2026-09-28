@@ -2,30 +2,28 @@ import { Link } from "react-router-dom";
 import { formatCfa } from "../utils/currency";
 
 const categoryColors = {
-  Electronics: "bg-blue-100 text-blue-700",
-  Clothing: "bg-pink-100 text-pink-700",
-  Books: "bg-amber-100 text-amber-700",
-  Food: "bg-green-100 text-green-700",
-  Other: "bg-gray-100 text-gray-700",
+  Electronics: "bg-blue-50 text-blue-700 ring-blue-200",
+  Clothing: "bg-pink-50 text-pink-700 ring-pink-200",
+  Books: "bg-amber-50 text-amber-700 ring-amber-200",
+  Food: "bg-emerald-50 text-emerald-700 ring-emerald-200",
+  Other: "bg-slate-50 text-slate-700 ring-slate-200",
 };
 
 const ItemCard = ({ item, onDelete }) => {
-  const handleDelete = () => {
-    if (window.confirm(`Are you sure you want to delete "${item.name}"?`)) {
-      onDelete(item._id);
-    }
-  };
-
   return (
-    <div className="group rounded-xl border border-gray-200 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-lg hover:border-gray-300">
-      {/* Header */}
-      <div className="mb-4 flex items-start justify-between">
-        <div className="flex-1">
-          <h3 className="text-lg font-semibold text-gray-900 group-hover:text-indigo-600 transition-colors">
+    <article className="group relative overflow-hidden rounded-[1.5rem] border border-white/70 bg-white/95 p-5 shadow-xl shadow-slate-200/60 ring-1 ring-slate-900/5 transition duration-300 hover:-translate-y-1 hover:shadow-2xl hover:shadow-slate-300/60">
+      <div className="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-indigo-300/20 blur-2xl transition group-hover:bg-indigo-300/30" />
+
+      <div className="relative mb-4 flex items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <Link
+            to={`/view/${item._id}`}
+            className="block truncate text-lg font-black tracking-tight text-slate-950 transition-colors hover:text-indigo-700"
+          >
             {item.name}
-          </h3>
+          </Link>
           <span
-            className={`mt-2 inline-block rounded-full px-3 py-1 text-xs font-medium ${
+            className={`mt-2 inline-flex rounded-full px-3 py-1 text-xs font-bold ring-1 ring-inset ${
               categoryColors[item.category] || categoryColors.Other
             }`}
           >
@@ -33,87 +31,58 @@ const ItemCard = ({ item, onDelete }) => {
           </span>
         </div>
         <span
-          className={`ml-2 inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
+          className={`inline-flex shrink-0 items-center rounded-full px-2.5 py-1 text-xs font-bold ring-1 ring-inset ${
             item.inStock
-              ? "bg-green-100 text-green-700"
-              : "bg-red-100 text-red-700"
+              ? "bg-emerald-50 text-emerald-700 ring-emerald-200"
+              : "bg-rose-50 text-rose-700 ring-rose-200"
           }`}
         >
-          <span
-            className={`mr-1.5 h-2 w-2 rounded-full ${
-              item.inStock ? "bg-green-500" : "bg-red-500"
-            }`}
-          ></span>
-          {item.inStock ? "In Stock" : "Out of Stock"}
+          <span className={`mr-1.5 h-2 w-2 rounded-full ${item.inStock ? "bg-emerald-500" : "bg-rose-500"}`} />
+          {item.inStock ? "In Stock" : "Out"}
         </span>
       </div>
 
-      {/* Description */}
-      <p className="mb-4 text-sm leading-relaxed text-gray-600 line-clamp-3">
-        {item.description}
+      <p className="relative mb-5 line-clamp-3 text-sm leading-6 text-slate-600">
+        {item.description || "No description available."}
       </p>
 
-      {/* Price */}
-      <div className="mb-5">
-        <span className="text-2xl font-bold text-gray-900">
+      <div className="relative mb-5 rounded-2xl bg-slate-50 p-4">
+        <p className="text-xs font-bold uppercase tracking-wider text-slate-400">Price</p>
+        <p className="mt-1 text-2xl font-black text-slate-950">
           {formatCfa(item.price)}
-        </span>
+        </p>
       </div>
 
-      {/* Actions */}
-      <div className="flex gap-3">
+      <div className="relative grid grid-cols-3 gap-2">
+        <Link
+          to={`/view/${item._id}`}
+          className="rounded-xl border border-sky-200 bg-sky-50 px-3 py-2.5 text-center text-sm font-bold text-sky-700 transition hover:bg-sky-100 active:scale-95"
+        >
+          View
+        </Link>
         <Link
           to={`/edit/${item._id}`}
-          className="flex-1 rounded-lg border border-indigo-200 bg-indigo-50 px-4 py-2.5 text-center text-sm font-medium text-indigo-600 transition-all duration-200 hover:bg-indigo-100 hover:border-indigo-300 active:scale-95"
+          className="rounded-xl border border-indigo-200 bg-indigo-50 px-3 py-2.5 text-center text-sm font-bold text-indigo-700 transition hover:bg-indigo-100 active:scale-95"
         >
-          <span className="inline-flex items-center gap-1.5">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z" />
-              <path
-                fillRule="evenodd"
-                d="M2 6a2 2 0 012-2h4a1 1 0 010 2H4v10h10v-4a1 1 0 112 0v4a2 2 0 01-2 2H4a2 2 0 01-2-2V6z"
-                clipRule="evenodd"
-              />
-            </svg>
-            Edit
-          </span>
+          Edit
         </Link>
         <button
-          onClick={handleDelete}
-          className="flex-1 rounded-lg border border-red-200 bg-red-50 px-4 py-2.5 text-sm font-medium text-red-600 transition-all duration-200 hover:bg-red-100 hover:border-red-300 active:scale-95"
+          type="button"
+          onClick={() => onDelete(item)}
+          className="rounded-xl border border-rose-200 bg-rose-50 px-3 py-2.5 text-sm font-bold text-rose-700 transition hover:bg-rose-100 active:scale-95"
         >
-          <span className="inline-flex items-center gap-1.5">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-4 w-4"
-              viewBox="0 0 20 20"
-              fill="currentColor"
-            >
-              <path
-                fillRule="evenodd"
-                d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                clipRule="evenodd"
-              />
-            </svg>
-            Delete
-          </span>
+          Delete
         </button>
       </div>
 
-      {/* Timestamp */}
-      <p className="mt-4 text-xs text-gray-400">
-        Updated: {new Date(item.updatedAt).toLocaleDateString("en-US", {
+      <p className="relative mt-4 text-xs font-medium text-slate-400">
+        Updated: {item.updatedAt ? new Date(item.updatedAt).toLocaleDateString("en-US", {
           year: "numeric",
           month: "short",
           day: "numeric",
-        })}
+        }) : "Not updated"}
       </p>
-    </div>
+    </article>
   );
 };
 
